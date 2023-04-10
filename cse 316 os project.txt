@@ -1,0 +1,42 @@
+// Create three queues for the different priority levels
+Queue highPriorityQueue;
+Queue mediumPriorityQueue;
+Queue lowPriorityQueue;
+
+// Initialize the queues
+highPriorityQueue.init(...);
+mediumPriorityQueue.init(...);
+lowPriorityQueue.init(...);
+
+// Prompt the user to enter the number of processes, their priority, and burst time
+int numProcesses = getInputNumProcesses();
+Process[] processes = new Process[numProcesses];
+
+for (int i = 0; i < numProcesses; i++) {
+    processes[i] = getInputProcess();
+}
+
+// Place each process in the corresponding queue based on its priority level
+for (int i = 0; i < numProcesses; i++) {
+    Process process = processes[i];
+
+    if (process.priority >= 1 && process.priority <= 5) {
+        highPriorityQueue.enqueue(process);
+    } else if (process.priority >= 6 && process.priority <= 10) {
+        mediumPriorityQueue.enqueue(process);
+    } else {
+        lowPriorityQueue.enqueue(process);
+    }
+}
+
+// Implement Round Robin scheduling algorithm on the highest priority queue
+RoundRobinScheduler highPriorityScheduler = new RoundRobinScheduler(highPriorityQueue, 4);
+highPriorityScheduler.run();
+
+// Implement priority scheduling algorithm on the medium priority queue
+PriorityScheduler mediumPriorityScheduler = new PriorityScheduler(mediumPriorityQueue);
+mediumPriorityScheduler.run();
+
+// Implement First Come First Serve algorithm on the lowest priority queue
+FCFSScheduler lowPriorityScheduler = new FCFSScheduler(lowPriorityQueue);
+lowPriorityScheduler.run();
